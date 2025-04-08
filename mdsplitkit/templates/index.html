@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Chapter Splitter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header>
+            <h1>Markdown Chapter Splitter</h1>
+            <div id="active-file-info" class="active-file-info">
+                <!-- Active filename will be shown here by JS -->
+                <span id="active-filename">No file loaded</span>
+            </div>
+        </header>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <!-- Title navigator sidebar -->
+            <div class="sidebar">
+                <!-- File upload area -->
+                <div id="upload-area" class="upload-area">
+                    <h2>Load Markdown File</h2>
+                    <input type="file" id="file-input" accept=".md,.markdown,text/markdown">
+                    <p>Select a file to begin splitting.</p>
+                </div>
+
+                <!-- Title navigator (visible when file loaded) -->
+                <div id="title-navigator" class="title-navigator hidden">
+                    <h3>Titles</h3>
+                    <input type="text" id="search-input" placeholder="Search titles...">
+                    <div id="headings-list" class="headings-list">
+                        <!-- Headings will be populated here by JS -->
+                    </div>
+                    <!-- The extracted chapters list is now shown in the right sidebar -->
+                </div>
+            </div>
+
+            <!-- Content viewer -->
+            <div class="content-area">
+                <div id="content-viewer" class="content-viewer">
+                    <!-- Content with line numbers will be rendered here by JS -->
+                    <pre id="markdown-content" class="markdown-content"></pre>
+                </div>
+
+                 <!-- Progress Bar -->
+                <div id="progress-section" class="progress-section hidden">
+                    <div class="progress-text">
+                        <span id="progress-percentage">0%</span> Extracted (<span id="extracted-lines-count">0</span> / <span id="original-lines-count">0</span> lines)
+                    </div>
+                    <div class="progress-bar-container">
+                        <div id="progress-bar" class="progress-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Chapter extraction controls -->
+                <div id="extraction-controls" class="extraction-controls hidden">
+                    <div class="selection-info">
+                        <span>Split Point (Start of Next Chapter): </span>
+                        <span id="selected-line-display" class="selected-line-display">None</span>
+                    </div>
+                    <button id="extract-btn" class="extract-btn" disabled>Extract Chapter</button>
+                    <div class="remaining-info">
+                        <span>Total Lines: </span>
+                        <span id="total-lines-count">0</span>
+                    </div>
+                     <button id="extract-remaining-btn" class="extract-remaining-btn" disabled>Extract Remaining as Last Chapter</button>
+                </div>
+            </div>
+
+             <!-- Right Sidebar for Extracted Chapters -->
+            <div class="right-sidebar hidden" id="right-sidebar">
+                 <h3>Extracted Chapters</h3>
+                 <div id="extracted-chapters-list-right" class="extracted-chapters-list">
+                     <!-- List will be populated by JS -->
+                 </div>
+            </div>
+        </div>
+
+        <!-- Extract chapter modal -->
+        <div id="extract-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Extract Chapter</h3>
+                    <button id="close-modal-btn" class="close-btn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Enter a filename for the chapter content before the selected split point (Line <span id="modal-split-line"></span>).</p>
+                    <div class="form-group">
+                        <label for="chapter-filename">Output Filename (.md)</label>
+                        <input type="text" id="chapter-filename" placeholder="e.g., chapter_1_introduction.md">
+                    </div>
+                     <div class="form-group">
+                        <label>Content Preview (First few lines)</label>
+                        <pre id="content-preview" class="content-preview"></pre>
+                    </div>
+                    <p class="warning"><strong>Warning:</strong> This will save the extracted content to a new file and permanently remove it from the original file (<span id="modal-active-filename"></span>).</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancel-extract-btn" class="cancel-btn">Cancel</button>
+                    <button id="confirm-extract-btn" class="confirm-btn">Confirm & Extract</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pass initial data from Flask if available -->
+    <script>
+        const initialData = {
+            content: {{ content | tojson | safe }},
+            headings: {{ headings | tojson | safe }},
+            filename: {{ filename | tojson | safe }},
+            current_line_count: {{ current_line_count | tojson | safe }},
+            original_line_count: {{ original_line_count | tojson | safe }},
+            extracted_chapters: {{ extracted_chapters | tojson | safe }}
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

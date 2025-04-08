@@ -1,9 +1,12 @@
 # ✂️ MDSplitKit: Effortless Markdown Chapter Splitting
 
-**Tame your large Markdown files! MDSplitKit provides a simple local web interface to incrementally split documents into chapters based on line numbers.**
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-<!-- Add other badges here if applicable (e.g., build status, version) -->
+<!-- Add other badges like Python version, build status, etc. -->
+<!-- e.g., [![Python Version](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/) -->
+
+![MDSplitKit Banner](docs/images/banner.png)
+
+**Tame your large Markdown files! MDSplitKit provides a simple local web interface to incrementally split documents into chapters based on line numbers.**
 
 ---
 
@@ -19,9 +22,40 @@
 *   **📊 Progress Tracking:** A visual progress bar shows how much of the original file you've processed.
 *   **📂 Output Management:** See a list of extracted chapter filenames directly in the interface. Chapters are saved to `static/output/`.
 
+![MDSplitKit Demo](docs/images/demo.png)
+*Fig 1: Screenshot of the MDSplitKit interface showing loaded content and extracted chapters.*
+
 ## 🤔 Why MDSplitKit?
 
 Working with massive Markdown documents (like textbooks, manuscripts, or extensive notes) can be cumbersome. MDSplitKit streamlines the process of breaking these down into manageable chapters or sections without needing complex scripts or manual file juggling. The incremental overwrite feature ensures you can pick up where you left off.
+
+## 🛠️ Tech Stack
+
+*   **Backend:** Python, Flask
+*   **Frontend:** HTML, CSS, Vanilla JavaScript
+*   **Markdown Parsing:** Python `markdown` library, `PyYAML` (for potential front matter)
+
+## 📁 Project Structure
+
+```
+mdsplitkit/
+├── app.py             # Main Flask application logic
+├── requirements.txt   # Python dependencies
+├── run.sh             # Script to setup environment and run the app
+├── sample_textbook.md # Example large markdown file
+├── static/            # Frontend assets (CSS, JS, Output Chapters)
+│   ├── css/
+│   ├── js/
+│   └── output/        # Default location for extracted chapters
+├── templates/
+│   └── index.html     # Main HTML template
+├── utils/
+│   └── markdown_parser.py # Logic for parsing and splitting
+├── docs/
+│   └── images/        # Banner and demo images
+├── .venv/             # Virtual environment (if created using script)
+└── README.md          # This file
+```
 
 ## 🚀 Getting Started
 
